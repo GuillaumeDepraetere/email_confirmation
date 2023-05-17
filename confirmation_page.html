@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Email Confirmation</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@latest/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+  <h1>Email Confirmation</h1>
+  <p id="message">Confirming your email...</p>
+
+  <script>
+    const supabase = Supabase.createClient('https://axgwxkseeagqyugpzeqz.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF4Z3d4a3NlZWFncXl1Z3B6ZXF6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2Nzc0OTE1NTYsImV4cCI6MTk5MzA2NzU1Nn0.VLWwKwpZitEhObwfJgCXjg6tyBeAx8MGtdASIo5hIuc');
+
+    // Get the token from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+
+    // Confirm the user's email
+    supabase.auth.verifyUser(token, 'email')
+      .then(response => {
+        if (response.error) {
+          // Handle error
+          document.getElementById('message').textContent = 'Error confirming email: ' + response.error.message;
+        } else {
+          // Display success message
+          document.getElementById('message').textContent = 'Email successfully confirmed, you can now sign in with ClosetConnect';
+        }
+      });
+  </script>
+</body>
+</html>
